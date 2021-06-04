@@ -1,0 +1,15 @@
+{
+  "id": "playerWalk",
+  "texture": {
+    "src": "player/walk",
+    "size": [
+      8,
+      16
+    ],
+    "divide": 4
+  },
+  "hitbox": [
+    0.5,
+    1.8
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "grass",
+  "texture": {
+    "src": "blocks/grass",
+    "animated": false,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "hitbox": [
+    1,
+    1
+  ]
+}

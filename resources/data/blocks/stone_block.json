@@ -1,0 +1,15 @@
+{
+  "id": "stone_block",
+  "texture": {
+    "src": "blocks/stone_block",
+    "animated": false,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "hitbox": [
+    1,
+    1
+  ]
+}

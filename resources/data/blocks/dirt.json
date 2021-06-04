@@ -1,0 +1,15 @@
+{
+  "id": "dirt",
+  "texture": {
+    "src": "blocks/dirt",
+    "animated": false,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "hitbox": [
+    1,
+    1
+  ]
+}

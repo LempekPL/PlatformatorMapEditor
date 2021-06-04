@@ -1,0 +1,15 @@
+{
+  "id": "stone_block",
+  "texture": {
+    "src": "editor/spawn",
+    "animated": false,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "hitbox": [
+    0,
+    0
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "air",
+  "texture": {
+    "src": "blocks/air",
+    "animated": false,
+    "offset": [
+      0,
+      0
+    ]
+  },
+  "hitbox": [
+    0,
+    0
+  ]
+}
