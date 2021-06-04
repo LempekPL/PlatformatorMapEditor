@@ -34,6 +34,7 @@ var (
 	gridImageProcessed = ebiten.NewImage(sWidth, sHeight)
 	alphaBlockImage    = ebiten.NewImage(16, 16)
 	blocksMenu         = ebiten.NewImage(40, sHeight)
+	fullImage          = ebiten.NewImage(sWidth, sHeight)
 	messageSizeMenu    [2]string
 	selectedSizeMenu   int
 )
@@ -177,6 +178,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	if g.mode == Menu {
 		screen.DrawImage(menuImage, nil)
 	} else if g.mode == Play {
+		fullImage.Clear()
+
 		gridImageProcessed.Clear()
 		optGrid := &ebiten.DrawImageOptions{}
 		gridImageX, gridImageY := gridImage.Size()
@@ -184,7 +187,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		optGrid.GeoM.Scale(g.camera.zoom, g.camera.zoom)
 		optGrid.GeoM.Translate(g.camera.pos.x, g.camera.pos.y)
 		gridImageProcessed.DrawImage(gridImage, optGrid)
-		screen.DrawImage(gridImageProcessed, nil)
+		fullImage.DrawImage(gridImageProcessed, nil)
 
 		relCX, relCY := getCursorPositionRelativeToImageWithCameraMovementAndZoom(cx, cy, gridImage, g.camera)
 		cIx := clampI(relCX, 0, gridImageX-1)
@@ -198,19 +201,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		tranX := g.camera.pos.x + (float64(alphaBlockImageX/2)-float64(gridImageX/2)+float64(cIx/16)*16)*g.camera.zoom
 		tranY := g.camera.pos.y + (-float64(alphaBlockImageY/2)+float64(gridImageY/2)-float64(cIy/16)*16)*g.camera.zoom
 		optAlphaBlocks.GeoM.Translate(tranX, tranY)
-		alphaBlockImage.Fill(image.White)
-		screen.DrawImage(alphaBlockImage, optAlphaBlocks)
+		alphaBlockImage.Fill(color.RGBA{R: 122, G: 122, B: 122, A: 122})
+		fullImage.DrawImage(alphaBlockImage, optAlphaBlocks)
 
-		screen.DrawImage(blocksImage, nil)
+		fullImage.DrawImage(blocksImage, nil)
 
 		optBlocksMenu := &ebiten.DrawImageOptions{}
 		blocksMenu.Fill(color.RGBA{R: 122, G: 122, B: 122, A: 122})
 		optBlocksMenu.GeoM.Translate(sWidth-40, 0)
-		screen.DrawImage(blocksMenu, optBlocksMenu)
+		fullImage.DrawImage(blocksMenu, optBlocksMenu)
 
-		text.Draw(screen, fmt.Sprintf("(%v, %v)", cIx, cIy), normalText, cx, cy+15, color.RGBA{R: 255, G: 150, A: 255})
-		text.Draw(screen, fmt.Sprintf("(%v, %v)", cIx/16, cIy/16), normalText, cx, cy+30, color.RGBA{R: 255, G: 150, A: 255})
-		text.Draw(screen, fmt.Sprintf("(%v, %v)", g.camera.pos.x, g.camera.pos.y), normalText, cx, cy+45, color.RGBA{R: 255, G: 150, A: 255})
+		text.Draw(fullImage, fmt.Sprintf("(%v, %v)", cIx, cIy), normalText, cx, cy+15, color.RGBA{R: 255, G: 150, A: 255})
+		text.Draw(fullImage, fmt.Sprintf("(%v, %v)", cIx/16, cIy/16), normalText, cx, cy+30, color.RGBA{R: 255, G: 150, A: 255})
+		text.Draw(fullImage, fmt.Sprintf("(%v, %v)", g.camera.pos.x, g.camera.pos.y), normalText, cx, cy+45, color.RGBA{R: 255, G: 150, A: 255})
+
+		screen.DrawImage(fullImage, nil)
 	}
 
 	text.Draw(screen, fmt.Sprintf("TPS: %0.2f\nFPS: %0.2f", ebiten.CurrentTPS(), ebiten.CurrentFPS()), normalText, 0, sHeight-30, color.White)

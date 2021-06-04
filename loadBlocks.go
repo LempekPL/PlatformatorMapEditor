@@ -35,7 +35,6 @@ func (g *Game) loadBlocks() {
 		fileName := fmt.Sprintf("resources/data/blocks/%v", f.Name())
 		file, _ := resourcesFS.ReadFile(fileName)
 		json.Unmarshal(file, &result)
-		fmt.Println(result)
 
 		texPath := fmt.Sprintf("resources/textures/%v.png", result.D("texture").S("src"))
 		imageBytes, _ := resourcesFS.ReadFile(texPath)
