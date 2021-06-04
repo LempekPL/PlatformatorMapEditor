@@ -186,8 +186,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		gridImageProcessed.DrawImage(gridImage, optGrid)
 		screen.DrawImage(gridImageProcessed, nil)
 
-		cIx := clamp((float64(cx) - g.camera.pos.x + float64(gridImageX)*g.camera.zoom/2)/g.camera.zoom, 0, float64(gridImageX-1))
-		cIy := clamp(((float64(cy) - g.camera.pos.y - float64(gridImageY)*g.camera.zoom/2)/g.camera.zoom) * -1, 0, float64(gridImageY-1))
+		relCX, relCY := getCursorPositionRelativeToImageWithCameraMovementAndZoom(cx, cy, gridImage, g.camera)
+		cIx := clampI(relCX, 0, gridImageX-1)
+		cIy := clampI(relCY, 0, gridImageY-1)
 
 		alphaBlockImage.Clear()
 		optAlphaBlocks := &ebiten.DrawImageOptions{}
@@ -195,7 +196,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		optAlphaBlocks.GeoM.Translate(-float64(alphaBlockImageX)/2, -float64(alphaBlockImageY)/2)
 		optAlphaBlocks.GeoM.Scale(g.camera.zoom, g.camera.zoom)
 
-		optAlphaBlocks.GeoM.Translate(cIx/16, cIy/16)
+		optAlphaBlocks.GeoM.Translate(g.camera.pos.x-float64(gridImageX/2-alphaBlockImageX/2)+float64(cIx/16)*16, g.camera.pos.y+float64(gridImageY/2-alphaBlockImageY/2)-float64(cIy/16)*16)
 		alphaBlockImage.Fill(image.White)
 		screen.DrawImage(alphaBlockImage, optAlphaBlocks)
 
@@ -207,7 +208,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		screen.DrawImage(blocksMenu, optBlocksMenu)
 
 		text.Draw(screen, fmt.Sprintf("(%v, %v)", cIx, cIy), normalText, cx, cy+15, color.RGBA{R: 255, G: 150, A: 255})
-		text.Draw(screen, fmt.Sprintf("(%v, %v)", int(cIx/16), int(cIy/16)), normalText, cx, cy+30, color.RGBA{R: 255, G: 150, A: 255})
+		text.Draw(screen, fmt.Sprintf("(%v, %v)", cIx/16, cIy/16), normalText, cx, cy+30, color.RGBA{R: 255, G: 150, A: 255})
 		text.Draw(screen, fmt.Sprintf("(%v, %v)", g.camera.pos.x, g.camera.pos.y), normalText, cx, cy+45, color.RGBA{R: 255, G: 150, A: 255})
 	}
 

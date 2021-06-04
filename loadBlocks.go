@@ -13,13 +13,13 @@ type boundary struct {
 }
 
 type block struct {
-	id         string
-	editorId   int
-	tex        *ebiten.Image
-	texAnim    bool
-	texDivide  int
-	texOffset  *boundary
-	hitbox     *boundary
+	id        string
+	editorId  int
+	tex       *ebiten.Image
+	texAnim   bool
+	texDivide int
+	texOffset *boundary
+	hitbox    *boundary
 }
 
 type placedBlock struct {
@@ -52,5 +52,4 @@ func (g *Game) loadBlocks() {
 		g.blocks[i].texOffset = &boundary{x: int(result.D("texture").SD("offset")[0].(float64)), y: int(result.D("texture").SD("offset")[1].(float64))}
 		g.blocks[i].hitbox = &boundary{x: int(result.SD("hitbox")[0].(float64)), y: int(result.SD("hitbox")[0].(float64))}
 	}
-	fmt.Println(g.blocks)
 }
