@@ -56,8 +56,8 @@ func getNumber() string {
 
 func getCursorPositionRelativeToImageWithCameraMovementAndZoom(cursorX, cursorY int, img *ebiten.Image, camera camera) (int, int) {
 	imageX, imageY := img.Size()
-	relativeCursorX := int((float64(cursorX) - camera.pos.x + float64(imageX)*camera.zoom/2)/camera.zoom)
-	relativeCursorY := int(((float64(cursorY) - camera.pos.y - float64(imageY)*camera.zoom/2)/camera.zoom) * -1)
+	relativeCursorX := int((float64(cursorX) - camera.pos.x + float64(imageX)*camera.zoom/2) / camera.zoom)
+	relativeCursorY := -int((float64(cursorY) - camera.pos.y - float64(imageY)*camera.zoom/2) / camera.zoom)
 	return relativeCursorX, relativeCursorY
 }
 

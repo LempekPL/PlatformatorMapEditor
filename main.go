@@ -195,8 +195,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		alphaBlockImageX, alphaBlockImageY := alphaBlockImage.Size()
 		optAlphaBlocks.GeoM.Translate(-float64(alphaBlockImageX)/2, -float64(alphaBlockImageY)/2)
 		optAlphaBlocks.GeoM.Scale(g.camera.zoom, g.camera.zoom)
-
-		optAlphaBlocks.GeoM.Translate(g.camera.pos.x-float64(gridImageX/2-alphaBlockImageX/2)+float64(cIx/16)*16, g.camera.pos.y+float64(gridImageY/2-alphaBlockImageY/2)-float64(cIy/16)*16)
+		tranX := g.camera.pos.x + (float64(alphaBlockImageX/2)-float64(gridImageX/2)+float64(cIx/16)*16)*g.camera.zoom
+		tranY := g.camera.pos.y + (-float64(alphaBlockImageY/2)+float64(gridImageY/2)-float64(cIy/16)*16)*g.camera.zoom
+		optAlphaBlocks.GeoM.Translate(tranX, tranY)
 		alphaBlockImage.Fill(image.White)
 		screen.DrawImage(alphaBlockImage, optAlphaBlocks)
 
